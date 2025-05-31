@@ -7,7 +7,7 @@ from services.query import getOneQuery,insertQuery ,getAllQueryWithCondition,exe
 
 def addProduct(mysql,cursor,data,files, user,page,action,method):
     try:
-        result=getOneQuery(cursor,'SELECT name from products WHERE name=%s',(data['name']))
+        result=getOneQuery(cursor,'SELECT name from products WHERE name=?',(data['name'],))
         if result:
             return render_template('/app/product/add_product.html',message=getMessage('PRODUCT_ALREADY_EXISTS') , success=False,user=user,data='',page=page,action=action,method=method)
         if 'thumbnail_image' not in files:
@@ -34,7 +34,7 @@ def addProduct(mysql,cursor,data,files, user,page,action,method):
             qty=data['qty']
             price=data['price']
             category_id=data['category_id']
-            qry='INSERT into  products  (name,link,category_id,thumbnail_image,full_image,short_description,full_description,qty,price) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+            qry='INSERT into  products  (name,link,category_id,thumbnail_image,full_image,short_description,full_description,qty,price) VALUES (?,?,?,?,?,?,?,?,?)'
             values=(name,name.replace(" ", "-").lower(),category_id,str(filename_thumb)+'_thumb.'+ext_thumb,str(filename_full)+'_full.'+ext_full,short_description,full_description,qty,price)
             result=insertQuery(mysql,cursor,qry,values)
             flash(getMessage('PRODUCT_ADDED_SUCCESSFULLY') )
@@ -46,13 +46,13 @@ def addProduct(mysql,cursor,data,files, user,page,action,method):
 def updateProduct(mysql,cursor,data,files,product_id):
     try:
         if "name" in data:
-            result=getOneQuery(cursor,'SELECT name from products WHERE name=%s AND id != %s',(data['name'],product_id))
+            result=getOneQuery(cursor,'SELECT name from products WHERE name=? AND id != ?',(data['name'],product_id))
             if  result:
                 return render_template('/app/product/add_product.html',message=getMessage('PRODUCT_ALREADY_EXISTS') , success=False )
         thumbnail_image = files['thumbnail_image']
         full_image = files['full_image']
         if thumbnail_image and allowed_file(thumbnail_image.filename):
-            resu=getOneQuery(cursor,'SELECT thumbnail_image from products WHERE id=%s',(product_id))
+            resu=getOneQuery(cursor,'SELECT thumbnail_image from products WHERE id=?',(product_id,))
             ext_thumb=get_extension(thumbnail_image.filename)
             filename_thumb=get_time_stamp()
             current_dir = os.getcwd()
@@ -60,7 +60,7 @@ def updateProduct(mysql,cursor,data,files,product_id):
             os.remove(current_dir + os.getenv('UPLOAD_FOLDER_PRODUCT')+'/thumb' +'/'+resu['thumbnail_image'])
             data['thumbnail_image']=str(filename_thumb)+'_thumb.'+ext_thumb
         if full_image and allowed_file(full_image.filename):
-            resu=getOneQuery(cursor,'SELECT full_image from products WHERE id=%s',(product_id))
+            resu=getOneQuery(cursor,'SELECT full_image from products WHERE id=?',(product_id,))
             ext_full=get_extension(full_image.filename)
             filename_full=get_time_stamp()
             current_dir = os.getcwd()
@@ -70,7 +70,7 @@ def updateProduct(mysql,cursor,data,files,product_id):
         fields=''
         for k, v in data.items():
             fields += k + '="'+str(v)+'",'
-        result=execQuery(mysql,cursor,'UPDATE  products  SET '+fields.rstrip(',')+' WHERE id=%s',(product_id))
+        result=execQuery(mysql,cursor,'UPDATE  products  SET '+fields.rstrip(',')+' WHERE id=?',(product_id,))
         flash(getMessage('PRODUCT_UPDATED_SUCCESSFULLY') )
         return redirect('/app/products')
     except Exception as e:
@@ -79,7 +79,7 @@ def updateProduct(mysql,cursor,data,files,product_id):
 
 def getProduct(cursor,productid):
     try:
-        result=getOneQuery(cursor,'SELECT id,category_id,name,thumbnail_image,full_image,price,qty,short_description,full_description from products WHERE id=%s',(productid))
+        result=getOneQuery(cursor,'SELECT id,category_id,name,thumbnail_image,full_image,price,qty,short_description,full_description from products WHERE id=?',(productid))
         if not result:
             raise Exception(getMessage('PRODUCT_NOT_FOUND'))
         return result
@@ -88,9 +88,9 @@ def getProduct(cursor,productid):
 
 def activeDeativeProduct(mysql,cursor,product_id,is_active):
     try:
-        result=getOneQuery(cursor,'SELECT name from products WHERE id = %s',(product_id))
+        result=getOneQuery(cursor,'SELECT name from products WHERE id = ?',(product_id,))
         if  result:   
-            result=execQuery(mysql,cursor,'UPDATE  products  SET is_active=%s WHERE id=%s',(is_active,product_id))
+            result=execQuery(mysql,cursor,'UPDATE  products  SET is_active=? WHERE id=?',(is_active,product_id))
             flash(getMessage('PRODUCT_UPDATED_SUCCESSFULLY'))
             return {"updated":True }
         flash(getMessage('PRODUCT_NOT_FOUND') )
@@ -101,9 +101,9 @@ def activeDeativeProduct(mysql,cursor,product_id,is_active):
 
 def deleteProduct(mysql,cursor,data):
     try:
-        exist=getOneQuery(cursor,'SELECT name,thumbnail_image,full_image from products WHERE id=%s',(data['product_id']))
+        exist=getOneQuery(cursor,'SELECT name,thumbnail_image,full_image from products WHERE id=?',(data['product_id'],))
         if exist:
-             execQuery(mysql,cursor,'DELETE from products WHERE id=%s',(data['product_id']))
+             execQuery(mysql,cursor,'DELETE from products WHERE id=?',(data['product_id']))
              current_dir = os.getcwd()
              os.remove(current_dir + os.getenv('UPLOAD_FOLDER_PRODUCT')+'/thumb' +'/'+ exist['thumbnail_image'])
              os.remove(current_dir + os.getenv('UPLOAD_FOLDER_PRODUCT')+'/full' +'/'+exist['full_image'])
@@ -122,7 +122,7 @@ def getProductsWithPagination(limit,page,cursor):
            page = 1
         offset=int(limit)*int(page)-int(limit)
         total=getAllQueryWithCondition(cursor,'SELECT COUNT(*) from products',())
-        data=getAllQueryWithCondition(cursor,'SELECT * from products  LIMIT %s OFFSET %s ',(int(limit),int(offset)))
+        data=getAllQueryWithCondition(cursor,'SELECT * from products  LIMIT ? OFFSET ? ',(int(limit),int(offset)))
         result = { "data":data,"page":page,"limit":limit,"total":total[0]['COUNT(*)'],"totalPages":offset}
         return result
     except Exception as e:

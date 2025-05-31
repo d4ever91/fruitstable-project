@@ -135,8 +135,8 @@
                       <img src="{{ url_for('static', filename='assets/images/profile/profile-image.png') }}" alt="" />
                     </div>
                     <div>
-                      <h6 class="fw-500">{{ user.first_name + ' ' + user.last_name  }}</h6>
-                      <p>{% if user.role == 2 %} Sub Admin {% else %} Admin {% endif %} </p>
+                      <h6 class="fw-500">{{ user[2] + ' ' + user[3]  }}</h6>
+                      <p>{% if user[6] == 2 %} Sub Admin {% else %} Admin {% endif %} </p>
                     </div>
                   </div>
                 </div>
@@ -148,7 +148,7 @@
                       <img src="{{ url_for('static', filename='assets/images/profile/profile-image.png') }}" alt="image">
                     </div>
                     <div class="content">
-                      <h4 class="text-sm">{{ user.first_name + ' ' + user.last_name  }}</h4>
+                      <h4 class="text-sm">{{ user[2] + ' ' + user[3]  }}</h4>
                       <a class="text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white text-xs" href="#">{{ user.email}}</a>
                     </div>
                   </div>

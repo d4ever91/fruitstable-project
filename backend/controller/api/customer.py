@@ -6,8 +6,8 @@ from services.query import getOneQuery,insertQuery
 
 def customerLogin(cursor,data):
     try:
-        values=(data['email'])
-        result=getOneQuery(cursor,'SELECT * from customers WHERE email=%s',values)
+        values=(data['email'],)
+        result=getOneQuery(cursor,'SELECT * from customers WHERE email=?',values)
         if not result:
               raise Exception(getMessage('EMAIL_INCORRECT'))
         if decrypt(result['password'],os.getenv('CRYPTO_KEY')) != data['password']:
@@ -22,15 +22,15 @@ def customerLogin(cursor,data):
 
 def customerRegister(mysql,cursor,data):
     try:
-        result=getOneQuery(cursor,'SELECT email from customers WHERE email=%s',(data['email']))
+        result=getOneQuery(cursor,'SELECT email from customers WHERE email=?',(data['email']))
         if  result:
              raise Exception(getMessage('EMAIL_ALREADY_EXISTS'))
         else:
-            qry='INSERT into  customers  (first_name,last_name,email,pubic_id,password) VALUES (%s,%s,%s,%s,%s)'
+            qry='INSERT into  customers  (first_name,last_name,email,pubic_id,password) VALUES (?,?,?,?,?)'
             values=(data['first_name'],data['last_name'],data['email'],uuid.uuid4(),encrypt(data['password'],os.getenv('CRYPTO_KEY')))
             print(qry)
             insertQuery(mysql,cursor,qry,values)
-            result=getOneQuery(cursor,'SELECT email from customers WHERE email=%s',(data['email']))
+            result=getOneQuery(cursor,'SELECT email from customers WHERE email=?',(data['email']))
             return sendResponse(getMessage('USER_REGISTER_SUCCESSFULLY'),result)
     except Exception as e:
         return handle_bad_request(e)

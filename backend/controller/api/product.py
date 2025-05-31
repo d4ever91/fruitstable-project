@@ -25,7 +25,7 @@ def getProductsAll(cursor,filter):
             qry += ' AND p.price <= % s'
             values=(True,True,filter['price_value'])
 
-            
+    
         if "price" in filter or "sort" in filter:
            opt =' ORDER BY'
         if "price" in filter and "sort" in filter:

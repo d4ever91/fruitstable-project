@@ -7,7 +7,7 @@ from services.query import getOneQuery,insertQuery ,getAllQueryWithCondition,exe
 
 def addCategory(mysql,cursor,data,files, user,page,action,method):
     try:
-        result=getOneQuery(cursor,'SELECT name from categories WHERE name=%s',(data['name']))
+        result=getOneQuery(cursor,'SELECT name from categories WHERE name=?',(data['name'],))
         if  result:
             return render_template('/app/category/add_category.html',message=getMessage('CATEGORY_ALREADY_EXISTS') , success=False,user=user,data='',page=page,action=action,method=method)
         if 'image' not in files:
@@ -21,10 +21,10 @@ def addCategory(mysql,cursor,data,files, user,page,action,method):
             current_dir = os.getcwd()
             file.save(os.path.join(current_dir + os.getenv('UPLOAD_FOLDER_CATEGORY') ,str(filename)+'.'+ext))
             name=data['name']
-            qry='INSERT into  categories  (name,link,image) VALUES (%s,%s,%s)'
+            qry='INSERT into  categories  (name,link,image) VALUES (?,?,?)'
             values=(name,name.replace(" ", "-").lower(),str(filename)+'.'+ext)
             insertQuery(mysql,cursor,qry,values)
-            result=getOneQuery(cursor,'SELECT name from categories WHERE email=%s',(data['name']))
+            result=getOneQuery(cursor,'SELECT name from categories WHERE email=?',(data['name'],))
             flash(getMessage('CATEGORY_ADDED_SUCCESSFULLY') )
             return redirect('/app/categories')
         
@@ -35,13 +35,13 @@ def addCategory(mysql,cursor,data,files, user,page,action,method):
 def updateCategory(mysql,cursor,data,files,category_id):
     try:
         if "name" in data:
-            result=getOneQuery(cursor,'SELECT name from categories WHERE name=%s AND id != %s',(data['name'],category_id))
+            result=getOneQuery(cursor,'SELECT name from categories WHERE name=? AND id != ?',(data['name'],category_id))
             if  result:
                 return render_template('/app/category/add_category.html',message=getMessage('CATEGORY_ALREADY_EXISTS') , success=False )
         if 'image' in files:
            file = files['image']
         if file and allowed_file(file.filename):
-            resu=getOneQuery(cursor,'SELECT image from categories WHERE id=%s',(category_id))
+            resu=getOneQuery(cursor,'SELECT image from categories WHERE id=?',(category_id,))
             ext=get_extension(file.filename)
             filename=get_time_stamp()
             current_dir = os.getcwd()
@@ -51,7 +51,7 @@ def updateCategory(mysql,cursor,data,files,category_id):
         fields=''
         for k, v in data.items():
             fields += k + '="'+v+'",'
-        result=execQuery(mysql,cursor,'UPDATE  categories  SET '+fields.rstrip(',')+' WHERE id=%s',(category_id))
+        result=execQuery(mysql,cursor,'UPDATE  categories  SET '+fields.rstrip(',')+' WHERE id=?',(category_id,))
         flash(getMessage('CATEGORY_UPDATED_SUCCESSFULLY') )
         return redirect('/app/categories')
     except Exception as e:
@@ -60,9 +60,9 @@ def updateCategory(mysql,cursor,data,files,category_id):
 
 def activeDeativeCategory(mysql,cursor,category_id,is_active):
     try:
-        result=getOneQuery(cursor,'SELECT name from categories WHERE id = %s',(category_id))
+        result=getOneQuery(cursor,'SELECT name from categories WHERE id = ?',(category_id,))
         if  result:   
-            result=execQuery(mysql,cursor,'UPDATE  categories  SET is_active=%s WHERE id=%s',(is_active,category_id))
+            result=execQuery(mysql,cursor,'UPDATE  categories  SET is_active=? WHERE id=?',(is_active,category_id))
             flash(getMessage('CATEGORY_UPDATED_SUCCESSFULLY'))
             return {"updated":True }
         flash(getMessage('CATEGORY_NOT_FOUND') )
@@ -73,9 +73,9 @@ def activeDeativeCategory(mysql,cursor,category_id,is_active):
 
 def deleteCategory(mysql,cursor,data):
     try:
-        exist=getOneQuery(cursor,'SELECT name from categories WHERE id=%s',(data['category_id']))
+        exist=getOneQuery(cursor,'SELECT name from categories WHERE id=?',(data['category_id'],))
         if exist:
-             result=execQuery(mysql,cursor,'DELETE from categories WHERE id=%s',(data['category_id']))
+             result=execQuery(mysql,cursor,'DELETE from categories WHERE id=?',(data['category_id']))
              flash(getMessage('CATEGORY_DELETED_SUCCESSFULLY') )
              return redirect('/app/categories')
         raise Exception(getMessage('CATEGORY_NOT_FOUND'))
@@ -85,7 +85,7 @@ def deleteCategory(mysql,cursor,data):
 
 def getCategory(cursor,categoryid):
     try:
-        result=getOneQuery(cursor,'SELECT id,name,image from categories WHERE id=%s',(categoryid))
+        result=getOneQuery(cursor,'SELECT id,name,image from categories WHERE id=?',(categoryid,))
         if not result:
             raise Exception(getMessage('CATEGORY_NOT_FOUND'))
         return result
@@ -95,7 +95,7 @@ def getCategory(cursor,categoryid):
 
 def getCategories(cursor):
     try:
-        data=getAllQueryWithCondition(cursor,'SELECT id,name from categories  WHERE  is_active = %s',(True))
+        data=getAllQueryWithCondition(cursor,'SELECT id,name from categories  WHERE  is_active = ?',(True,))
         return data
     except Exception as e:
         return handle_bad_request(e)
@@ -109,7 +109,7 @@ def getCategorysWithPagination(limit,page,cursor):
            page = 1
         offset=int(limit)*int(page)-int(limit)
         total=getAllQueryWithCondition(cursor,'SELECT COUNT(*) from categories',())
-        data=getAllQueryWithCondition(cursor,'SELECT id,name,link,image , is_active from categories  LIMIT %s OFFSET %s',(int(limit),int(offset)))
+        data=getAllQueryWithCondition(cursor,'SELECT id,name,link,image , is_active from categories  LIMIT ? OFFSET ?',(int(limit),int(offset)))
         if not data:
             message=getMessage('CATEGORY_NOT_FOUND')
             return message
