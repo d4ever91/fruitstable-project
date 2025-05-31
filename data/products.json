@@ -1,0 +1,82 @@
+[
+  {
+      "id":1,
+    "name": "Ladyfinger",
+    "link": "/lady-finger",
+    "thumbnailImage": "/img/product/lady-thumb.png",
+    "fullImage": "/img/product/lady-thumb.png",
+    "categoryId": 1,
+    "shortDescription": "Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt ",
+    "fullDescription": "Okra, Abelmoschus esculentus, known in some English-speaking countries as lady's fingers, is a flowering plant in the mallow family native to East Africa. Cultivated in tropical, subtropical, and warm temperate regions around the world for its edible green seed pods, okra is featured in the cuisines of many countries.",
+    "price": 30,
+    "qty": 3,
+    "reviews": [
+      { "name": "Makirat", "description": "I don't like bindi" },
+      { "name": "Prince", "description": "This is very tasty bindi" }
+    ]
+  },
+  {
+    "id":2,
+    "name": "Brinjal",
+    "link": "/brinjal",
+    "thumbnailImage": "/img/product/brinjal-thumb.png",
+    "fullImage": "/img/product/brinjal-full.png",
+    "categoryId": 1,
+    "shortDescription": "Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt ",
+    "fullDescription": "Okra, Abelmoschus esculentus, known in some English-speaking countries as lady's fingers, is a flowering plant in the mallow family native to East Africa. Cultivated in tropical, subtropical, and warm temperate regions around the world for its edible green seed pods, okra is featured in the cuisines of many countries.",
+    "price": 10,
+    "qty": 5,
+    "reviews": [
+      { "name": "Makirat", "description": "I don't like bindi" },
+      { "name": "Prince", "description": "This is very tasty bindi" }
+    ]
+  },
+  {
+    "id":3,
+    "name": "Potato",
+    "link": "/potato",
+    "thumbnailImage": "/img/product/potato-thumb.png",
+    "fullImage": "/img/product/potato-full.png",
+    "categoryId": 1,
+    "shortDescription": "Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt ",
+    "fullDescription": "Okra, Abelmoschus esculentus, known in some English-speaking countries as lady's fingers, is a flowering plant in the mallow family native to East Africa. Cultivated in tropical, subtropical, and warm temperate regions around the world for its edible green seed pods, okra is featured in the cuisines of many countries.",
+    "price": 100,
+    "qty": 5,
+    "reviews": [
+      { "name": "Makirat", "description": "I don't like potato" },
+      { "name": "Prince", "description": "This is very tasty potato" }
+    ]
+  },
+  {
+    "id":4,
+    "name": "Cherry",
+    "link": "/cherry",
+    "thumbnailImage": "/img/product/potato-thumb.png",
+    "fullImage": "/img/product/potato-full.png",
+    "categoryId": 2,
+    "shortDescription": "Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt ",
+    "fullDescription": "Okra, Abelmoschus esculentus, known in some English-speaking countries as lady's fingers, is a flowering plant in the mallow family native to East Africa. Cultivated in tropical, subtropical, and warm temperate regions around the world for its edible green seed pods, okra is featured in the cuisines of many countries.",
+    "price": 100,
+    "qty": 5,
+    "reviews": [
+      { "name": "Makirat", "description": "I don't like potato","date":"12 January 2025","rating":3 },
+      { "name": "Prince", "description": "This is very tasty potato","date":"12 Feb 2025","rating":5 }
+    ]
+  },
+  {
+    "id":5,
+    "name": "Bread",
+    "link": "/bread",
+    "thumbnailImage": "/img/product/potato-thumb.png",
+    "fullImage": "/img/product/potato-full.png",
+    "categoryId": 3,
+    "shortDescription": "Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt ",
+    "fullDescription": "Okra, Abelmoschus esculentus, known in some English-speaking countries as lady's fingers, is a flowering plant in the mallow family native to East Africa. Cultivated in tropical, subtropical, and warm temperate regions around the world for its edible green seed pods, okra is featured in the cuisines of many countries.",
+    "price": 100,
+    "qty": 5,
+    "reviews": [
+      { "name": "Makirat", "description": "I don't like potato","date":"16 January 2025","rating":4 },
+      { "name": "Prince", "description": "This is very tasty potato","date":"20 March 2025","rating":5 }
+    ]
+  }
+]

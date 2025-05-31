@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "name": "Vegetables",
+    "link": "/vegetables",
+    "img": "/img/cat/vegetable.png"
+  },
+  { "id": 2, "name": "Fruits", "link": "/fruit", "img": "/img/cat/fruit.png" },
+  { "id": 3, "name": "Bread", "link": "/bread", "img": "/img/cat/bread1.png" },
+  { "id": 4, "name": "Meat", "link": "/meat", "img": "/img/cat/meat1.png" },
+  { "id": 5, "name": "Suppliments", "link": "/supliment", "img": "/img/cat/meat1.png" }
+]

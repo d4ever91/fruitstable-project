@@ -1,0 +1,82 @@
+{% include "includes/header.html" %}
+  
+{% include "includes/sidebar.html" %}  
+<div class="content">
+    <div class="animated fadeIn">
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong style="text-transform: capitalize;" class="card-title">{{ page }}</strong>
+            </div>
+            <div class="card-body">
+                {% if success == True and message %}
+                <div class="sufee-alert alert with-close alert-primary alert-dismissible fade show">
+                    <span class="badge badge-pill badge-primary">Success</span>
+                    {{message}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% elif success ==False and message %}
+                <div class="sufee-alert alert with-close alert-warning alert-dismissible fade show">
+                    <span class="badge badge-pill badge-warning">Error</span>
+                    {{message}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endif %}
+
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="/app/customer/add" method="post">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="first_name" class="control-label mb-1">First Name</label>
+                                        <input required id="first_name" name="first_name" type="text" class="form-control cc-exp" value="">
+                                        <span class="help-block" data-valmsg-for="cc-exp" data-valmsg-replace="true"></span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label for="x_card_code" class="control-label mb-1">Last Name</label>
+                                    <div class="input-group">
+                                        <input id="last_name" name="last_name" type="text" class="form-control cc-exp" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label  for="email" class="control-label mb-1">Email</label>
+                                        <input required id="email" name="email" type="email" class="form-control" aria-required="true" aria-invalid="false" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group has-success">
+                                <label for="password" class="control-label mb-1">Password</label>
+                                <input required minlength="6" id="password" name="password" type="password" class="form-control cc-name valid" value="">
+                                <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                            </div>
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <i class="fa fa-lock fa-lg"></i>&nbsp;
+                                    <span id="payment-button-amount">Submit</span>
+                                    <span id="payment-button-sending" style="display:none;">Sending…</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- .card -->
+
+    </div><!--/.col-->
+
+</div>
+</div>
+</div>
+<div class="clearfix"></div>
+{% include "includes/footer.html" %}

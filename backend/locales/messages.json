@@ -1,0 +1,39 @@
+{
+    "COUPON_ERROR":"Invalid Coupon",
+    "COUPON_SUCCESS":"Coupon Applied",
+    "COUPON_REMOVED":"Coupon Removed",
+    "EMAIL_INCORRECT":"Email not exists",
+    "EMAIL_ALREADY_EXISTS":"Email already exists",
+    "USER_NOT_FOUND":"User not exists",
+    "USER_DELETED_SUCCESSFULLY":"User deleted Successfully",
+    "USER_ADDED_SUCCESSFULLY":"User added Successfully",
+    "USER_UPDATED_SUCCESSFULLY":"User updated Successfully",
+
+    "CUSTOMER_NOT_FOUND":"Customer not found",
+    "CUSTOMER_UPDATED_SUCCESSFULLY":"Customer updated successfully",
+    "CUSTOMER_DELETED_SUCCESSFULLY":"Customer deleted successfully",
+
+    "CATEGORY_NOT_FOUND":"Category not exists",
+    "CATEGORY_IMAGE_NOT_FOUND":"Category image not uploaded",
+    "CATEGORY_IMAGE_INVALID":"Category image is invalid",
+    "CATEGORY_DELETED_SUCCESSFULLY":"Category deleted Successfully",
+    "CATEGORY_ADDED_SUCCESSFULLY":"Category added Successfully",
+    "CATEGORY_ALREADY_EXISTS":"Category already exists",
+    "CATEGORY_UPDATED_SUCCESSFULLY":"Category updated Successfully",
+
+    "PRODUCT_ADDED_SUCCESSFULLY":"Product added successfully",
+    "PRODUCT_THUMB_IMAGE_NOT_FOUND":"Product thumb image not found",
+    "PRODUCT_FULL_IMAGE_NOT_FOUND":"Product full image not found",
+    "PRODUCT_ALREADY_EXISTS":"Product already exists",
+    "PRODUCT_DELETED_SUCCESSFULLY":"Product deleted Successfully",
+    "PRODUCT_UPDATED_SUCCESSFULLY":"Product updated Successfully",
+    "PRODUCT_NOT_FOUND":"Product not exists",
+    
+
+    "USER_LOGGED_SUCCESSFULLY":"User loggedIn Successfully",
+    "USER_REGISTER_SUCCESSFULLY":"User Register Successfully",
+    "PASSWORD_INCORRECT":"Invalid Password",
+    "PRODCUT_ADDED_SUCCESSFULLY":"Product added Successfully",
+    "UNAUTHORIZED":"You are not authorized to this request",
+    "CUSTOMER_IS_NOT_ACTIVE":"You are not allowed to logged in please contact administrator"
+}

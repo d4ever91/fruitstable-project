@@ -1,0 +1,80 @@
+{% include "includes/header.html" %}
+  
+{% include "includes/sidebar.html" %}  
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Users</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="/">Dashboard</a></li>
+                            <li><a href="/app/users">Users</a></li>
+                            <li class="active">Users</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="animated fadeIn">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header" style="display: flex;justify-content: space-between;">
+                        <strong class="card-title">Users</strong>
+                        <a  href="/app/user/add" class="btn btn-primary btn-sm"><i class="fa fa-user"></i>Add User</a>
+                    </div>
+                    <div class="card-body">
+                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dat in data %}
+                                <tr>
+                                  <td>{{dat.first_name}}</td>
+                                  <td>{{dat.last_name}}</td>
+                                  <td>{{dat.email}}</td>
+                                  <td>{% if dat.role == 2 %} Sub Admin {% else %} Customer {% endif %} </td>
+                                  <td>
+                                    <label>
+                                        <a href='/app/user/edit/{{dat.id}}' style="margin-right: 5px;" class="fa fa-pencil"></a>
+                                       <form action='/app/user/delete/{{dat.id}}' method="post">
+                                            <button type="submit" class="fa fa-times"></button>
+                                       </form>                                       
+                                    </label>
+                                  </td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div><!-- .animated -->
+</div><!-- .content -->
+
+
+<div class="clearfix"></div>
+{% include "includes/footer.html" %}

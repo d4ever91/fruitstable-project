@@ -1,0 +1,10 @@
+#My SQL test
+
+1)Write a sql query to create user table with id(primary), firstname,lastname,email,password
+2)write a sql query to get all users
+3)write a sql query to get all users count
+3)write a sql query to get email of user by id
+4)write a sql query to delete user by id
+5)write a sql query to insert new user
+6)write a sql query to update email ,firstname ,lastname by (id and email)
+7)What are JOINS. What is diff between left and inner join

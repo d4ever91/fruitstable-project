@@ -1,0 +1,8 @@
+[
+  { "name": "home", "link": "/","dynamic":false, "class": "nav-item nav-link","template":"/template/main/home.html" ,"nav":true ,"function":["getFeaturedCategories","getCategoryTabs","getHeaderSlider","getCartCount","cartAction"] },
+  { "name": "shop", "link": "/shop","dynamic":false, "class": "nav-item nav-link" ,"template":"/template/main/shop.html","nav":true,"function":["getCartCount","getShopCategories","searchQuery" , "filterProductsByPrice","cartAction","sortProductByPrice","filterProductByCategory"]},
+  { "name": "cart", "link": "/cart", "dynamic":false,"class": "nav-item nav-link" ,"template":"/template/main/cart.html","nav":false,"function":["getCartCount","cartAction","getCartItems","getCartBody","applyCoupon"]},
+  { "name": "shop-detail", "link": "/product","dynamic":true, "class": "nav-item nav-link" ,"template":"/template/main/shop-detail.html","nav":false,"function":["getCartCount","cartAction","getProductDetail","getShopCategories"]},
+  { "name": "login", "link": "/login","dynamic":false, "class": "nav-item nav-link" ,"template":"/template/auth/login.html","nav":false,"function":["getCartCount","cartAction","checkIfLogin","loginFormData"]},
+  { "name": "register", "link": "/register","dynamic":false, "class": "nav-item nav-link" ,"template":"/template/auth/register.html","nav":false,"function":["getCartCount","cartAction","getRegisterForm","registerFormData"]}
+]

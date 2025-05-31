@@ -1,0 +1,7 @@
+{
+    "COUPON_ERROR":"Invalid Coupon",
+    "COUPON_SUCCESS":"Coupon Applied",
+    "COUPON_REMOVED":"Coupon Removed",
+    "EMAIL_INCORRECT":"Invalid Email",
+    "PASSWORD_INCORRECT":"Invalid Password"
+}

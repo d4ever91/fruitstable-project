@@ -1,0 +1,229 @@
+{% include "includes/head.html" %} {% include "includes/sidebar.html" %}
+<!-- /#header -->
+<!-- Content -->
+<!-- ======== main-wrapper start =========== -->
+<main class="main-wrapper">
+  <!-- ========== header start ========== -->
+
+  <!-- ========== header end ========== -->
+  {% include "includes/header.html" %}
+  {% include "includes/modal.html" %}
+  <!-- ========== section start ========== -->
+  <section class="table-components">
+    <div class="container-fluid">
+      <!-- ========== title-wrapper start ========== -->
+      <div
+        class="title d-flex flex-wrap align-items-center justify-content-between mt-20 mb-20"
+      >
+        <div class="left d-flex align-items-center justify-content-center">
+          <h6 class="text-medium">Categories</h6>
+        </div>
+        <div class="right d-flex align-items-center justify-content-center">
+          <div class="select-style-1 mr-10 mb-0">
+            <div class="select-position select-sm">
+              <select id="limit" name="limit" class="light-bg">
+                <option value="10">Limit 10</option>
+                <option value="20">Limit 20</option>
+              </select>
+            </div>
+          </div>
+          <div class="select-position select-sm">
+            <a
+              href="/app/category/add"
+              class="main-btn primary-btn rounded-full btn-hover"
+              >Add Category</a
+            >
+          </div>
+          <!-- end select -->
+        </div>
+      </div>
+
+      <!-- ========== title-wrapper end ========== -->
+
+      <!-- ========== tables-wrapper start ========== -->
+      <div class="tables-wrapper">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card-style mb-30">
+              {% include "includes/success_message.html" %}
+              <h6 class="mb-10">Categories</h6>
+              <div class="table-wrapper table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Link</th>
+                      <th>Active</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% if result and not result.data %}
+                    <tr>
+                      <td>No Data Found</td> 
+                    </tr>
+                    {% else %}
+                    {% for dat in result.data %}
+                    <tr>
+                      <td><img class="thumb-img" src="{{ url_for('static', filename='uploads/category/'+dat.image) }}"/></td>
+                      <td>{{dat.name}}</td>
+                      <td>{{dat.link}}</td>
+                      <td>
+                        <div class="form-check form-switch toggle-switch">
+                          <input
+                            data-id="{{dat.id}}"
+                            name="is_active"
+                            class="form-check-input"
+                            type="checkbox"
+                            id="toggleSwitch2"
+                            value="{{dat.is_active}}"
+                            {%
+                            if
+                            dat.is_active
+                            %}
+                            checked
+                            {%
+                            else
+                            %}
+                            {%
+                            endif
+                            %}
+                          />
+                          <label
+                            class="form-check-label"
+                            for="toggleSwitch2"
+                          ></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="action">
+                          <a class="edit" href="/app/category/edit/{{dat.id}}">
+                            <i class="lni lni-pencil"></i>
+                          </a>
+                            <button  id="remove-category" type="btn" class="text-danger" data-id="{{dat.id}}">
+                              <i class="lni lni-trash-can"></i>
+                            </button>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                  </tbody>
+                </table>
+                <!-- end table -->
+              </div>
+            </div>
+            <!-- end card -->
+          </div>
+          <!-- end col -->
+        </div>
+        <!-- end row -->
+      </div>
+      <div
+        class="title d-flex flex-wrap align-items-center justify-content-between mt-0 mb-0"
+      >
+      {% if result.data %} 
+      <div class="left d-flex align-items-center justify-content-center">
+          <h6 class="text-medium">Total {{result.total}}</h6>
+        </div>
+
+        {% endif %}
+        <div class="right d-flex align-items-center justify-content-center">
+          <div class="select-style-1 mr-10 mb-0">
+            {% if totalPages %}
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-end">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">Next</a>
+                </li>
+              </ul>
+            </nav>
+            {% endif %}
+          </div>
+          <!-- end select -->
+        </div>
+      </div>
+      <!-- ========== tables-wrapper end ========== -->
+    </div>
+    <!-- end container -->
+  </section>
+</main>
+<script>
+
+  
+  var limit = document.querySelector("#limit");
+  var rmv = document.querySelectorAll("#remove-category");
+  
+  var toggleSwitch2 = document.querySelectorAll("#toggleSwitch2");
+  var modal = document.querySelector("#customModal");
+  limit.addEventListener("change", () => {
+    window.location.replace(
+      window.location.origin + `/app/categorys?limit=${limit.value}`
+    );
+  });
+  
+  toggleSwitch2.forEach(swtuch=>{
+    swtuch.addEventListener("click", async () => {
+     var check=confirm("Are you sure ?")
+     window.event.preventDefault()
+     if(check){
+        var data_id = swtuch.getAttribute("data-id");
+        await activeDeactive(data_id, swtuch.value);
+     }
+  });
+  })
+
+  rmv.forEach(re=>{
+    re.addEventListener("click", async () => {
+     var check=confirm("Are you sure ?")
+     window.event.preventDefault()
+     if(check){
+        var data_id = re.getAttribute("data-id");
+        await deleteCategory(data_id);
+     }
+  });
+  })
+
+  
+  
+
+  async function activeDeactive(data_id, value) {
+    try {
+      if (value == 1) {
+        is_active = false;
+      } else {
+        is_active = true;
+      }
+      var data = await fetch(
+        window.location.origin + `/app/category/active/` + data_id,
+        { method: "PUT", body: JSON.stringify({ is_active }) }
+      );
+      window.location.replace(window.location.origin + `/app/categories`);
+    } catch (e) {
+    }
+  }
+
+  async function deleteCategory(data_id) {
+    try {
+      var data = await fetch(
+        window.location.origin + `/app/category/delete/` + data_id,
+        { method: "DELETE", body: ""}
+      );
+      window.location.replace(window.location.origin + `/app/categories`);
+    } catch (e) {
+    }
+  }
+
+  
+
+
+</script>
+<div class="clearfix"></div>
+{% include "includes/footer.html" %}
