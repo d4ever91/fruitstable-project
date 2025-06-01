@@ -3,7 +3,9 @@ from services.query import getAllQueryWithCondition
 
 def getProductsByCategory(category_id,cursor):
     try:
-        data=getAllQueryWithCondition(cursor,'SELECT p.name,p.link, p.thumbnail_image,p.short_description,p.price,p.qty, c.name as category_name  from products p LEFT JOIN categories c ON  p.category_id = c.id WHERE  p.category_id = %s AND p.is_active = %s AND c.is_active = %s',(category_id,True,True))
+        data=getAllQueryWithCondition(cursor,'SELECT p.name,p.link, p.thumbnail_image,p.short_description,p.price,p.qty, c.name as category_name  from products p LEFT JOIN categories c ON  p.category_id = c.id WHERE  p.category_id =? AND p.is_active =? AND c.is_active =?',(category_id,True,True))
+        columns = [column[0] for column in cursor.description]
+        data = [dict(zip(columns, row)) for row in data]
         return sendResponse("",data)
     except Exception as e:
         print(e)
@@ -12,17 +14,16 @@ def getProductsByCategory(category_id,cursor):
 
 def getProductsAll(cursor,filter):
     try:
-        qry ='SELECT p.name,p.link, p.thumbnail_image,p.short_description,p.price,p.qty, c.name as category_name  from products p LEFT JOIN categories c ON  p.category_id = c.id WHERE  p.is_active = %s AND c.is_active = %s'
+        qry ='SELECT p.name,p.link, p.thumbnail_image,p.short_description,p.price,p.qty, c.name as category_name  from products p LEFT JOIN categories c ON  p.category_id = c.id WHERE  p.is_active =? AND c.is_active =?'
         values =(True,True)
-       
         if "cat_id" in filter and "price_value" in filter:
-            qry += ' AND p.category_id = % s AND p.price <= % s '
+            qry += ' AND p.category_id = ? AND p.price <= ? '
             values=(True,True,filter['cat_id'],filter['price_value'])
         elif "cat_id" in filter:
-            qry += ' AND p.category_id = % s'
+            qry += ' AND p.category_id = ?'
             values=(True,True,filter['cat_id'])
         elif "price_value" in filter:
-            qry += ' AND p.price <= % s'
+            qry += ' AND p.price <= ?'
             values=(True,True,filter['price_value'])
 
     
@@ -51,9 +52,10 @@ def getProductsAll(cursor,filter):
                 opt +=' ASC'
         qry += opt
         data=getAllQueryWithCondition(cursor,qry,values)
+        columns = [column[0] for column in cursor.description]
+        data = [dict(zip(columns, row)) for row in data]
         return sendResponse("",data)
     except Exception as e:
-        print(e)
         return handle_bad_request(e)
     
 

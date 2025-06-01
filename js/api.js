@@ -146,10 +146,6 @@ function getProductsCountByCategory(catid){
   return data.length;
 }
   
-// function getProductsDataByCategory(catid){
-//    var products= getProductsData();
-//    return products.filter(product=>product.categoryId == catid)
-// }
   
 function getProductById(productid){
   var products= getProductsData();

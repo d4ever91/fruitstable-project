@@ -7,7 +7,6 @@ from controller.api.category import getCategories
 from controller.api.product import getProductsByCategory,getProductsAll
 
 from model.customer import CustomerSchema,CustomerSchemaAddCustomer
-from middleware.middleware import require_authentication,check_super_admin_role,require_session_authentication,require_session_non_authentication
 
 def ApiCustomerRoutes(app,mysql,cursor):
     @app.route('/api/customer/login', methods=['POST'])

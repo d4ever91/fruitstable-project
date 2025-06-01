@@ -28,9 +28,10 @@ def customerRegister(mysql,cursor,data):
         else:
             qry='INSERT into  customers  (first_name,last_name,email,pubic_id,password) VALUES (?,?,?,?,?)'
             values=(data['first_name'],data['last_name'],data['email'],uuid.uuid4(),encrypt(data['password'],os.getenv('CRYPTO_KEY')))
-            print(qry)
             insertQuery(mysql,cursor,qry,values)
-            result=getOneQuery(cursor,'SELECT email from customers WHERE email=?',(data['email']))
+            result=getOneQuery(cursor,'SELECT email from customers WHERE email=?',(data['email'],))
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in result]
             return sendResponse(getMessage('USER_REGISTER_SUCCESSFULLY'),result)
     except Exception as e:
         return handle_bad_request(e)
