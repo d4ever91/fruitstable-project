@@ -22,12 +22,12 @@ def customerLogin(cursor,data):
 
 def customerRegister(mysql,cursor,data):
     try:
-        result=getOneQuery(cursor,'SELECT email from customers WHERE email=?',(data['email']))
+        result=getOneQuery(cursor,'SELECT email from customers WHERE email=?',(data['email'],))
         if  result:
              raise Exception(getMessage('EMAIL_ALREADY_EXISTS'))
         else:
             qry='INSERT into  customers  (first_name,last_name,email,pubic_id,password) VALUES (?,?,?,?,?)'
-            values=(data['first_name'],data['last_name'],data['email'],uuid.uuid4(),encrypt(data['password'],os.getenv('CRYPTO_KEY')))
+            values=(data['first_name'],data['last_name'],data['email'],str(uuid.uuid4()),encrypt(data['password'],os.getenv('CRYPTO_KEY')))
             insertQuery(mysql,cursor,qry,values)
             result=getOneQuery(cursor,'SELECT email from customers WHERE email=?',(data['email'],))
             columns = [column[0] for column in cursor.description]
