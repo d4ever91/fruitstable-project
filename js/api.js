@@ -148,8 +148,9 @@ function getProductsCountByCategory(catid){
   
   
 function getProductById(productid){
-  var products= getProductsData();
-  return products.find(product=>product.id == productid)
+  var obj=urlRequest(`http://127.0.0.1:5000/api/product/${productid}`)
+  var data= JSON.parse(obj);
+  return data.data;
 }
 
 function getCategoryById(catid){

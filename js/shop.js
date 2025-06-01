@@ -6,7 +6,6 @@ var products =[];
 function getListProducts(){
   var html='';
   var productContainer= document.getElementById('product-list');
-  console.log(products)
     if(products.length == 0){
       html += '<h3>No Products</h3>'
       productContainer.innerHTML=html;
@@ -107,7 +106,6 @@ function getListProducts(){
         var cat= catQu.getAttribute('catid');
         var hasClass=catQu.classList.contains('active');
         catQuery.forEach(item => item.classList.remove('active'));
-       //remove all classed of anchor
         hasClass ? catQu.classList.remove('active') :  catQu.className="active";
         catQuery.forEach(item => {
           var catId= catQu.getAttribute('catid');

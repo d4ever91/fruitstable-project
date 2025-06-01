@@ -1,10 +1,9 @@
-from flask import request ,render_template
-from flask_cors import cross_origin
-from helper import getMessage,sendResponseByStatus,handle_bad_request
+from flask import request 
+from helper import handle_bad_request
 from controller.api.customer import customerLogin,customerRegister
 
 from controller.api.category import getCategories
-from controller.api.product import getProductsByCategory,getProductsAll
+from controller.api.product import getProductsByCategory,getProductsAll,getProductsBySlug
 
 from model.customer import CustomerSchema,CustomerSchemaAddCustomer
 
@@ -75,6 +74,15 @@ def ApiProductRoutes(app,mysql,cursor):
                 return getProductsAll(cursor,data)
         except Exception as e:
             return handle_bad_request(e)
+        
+    @app.route('/api/product/<slug>', methods=['GET'])
+    def product_one_get(slug):
+        try:
+                return getProductsBySlug(cursor,slug)
+        except Exception as e:
+            return handle_bad_request(e)
+        
+
         
 
         

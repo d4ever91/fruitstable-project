@@ -2,10 +2,9 @@
 
 function getProductDetail(){
   var currentUrl= getFullUrl();
-  var url= new URL(currentUrl)
-  var params= new URLSearchParams(url.search);
-  var productId=params.get("id");
-  var product= getProductById(productId)
+  var urlPart = currentUrl.split("/");
+  var slug=urlPart[urlPart.length-1]
+  var product= getProductById(slug)
   var detail=getProduct(product);
   var divM = document.getElementById("detail-product");
   divM.innerHTML = detail.outerHTML;
@@ -15,30 +14,20 @@ function getProduct(product){
   
   var divCon1 = document.createElement('div');
   var divCon2 = document.createElement('div');
-  // var divR1 = document.createElement('div');
   var divC1 = document.createElement('div');
   var divR2  = document.createElement('div');
- 
+  divCon1.className ="container-fluid py-5 mt-5";
+  divCon2.className ="container py-5";
+  divC1.className ="col-lg-8 col-xl-9";
+  divR2.className = "row g-4";
 
-
- divCon1.className ="container-fluid py-5 mt-5";
- divCon2.className ="container py-5";
-//  divR1.className ="row g-4 mb-5";
- divC1.className ="col-lg-8 col-xl-9";
- divR2.className = "row g-4";
-
-
- var img =detailProductImg(product.fullImage);
- var detailData = detailProductData(product.name,product.categoryId,product.price,product.shortDescription,product.fullDescription)
+  var img =detailProductImg(product.full_image);
+  var detailData = detailProductData(product.name,product.category_id,product.price,product.short_description,product.full_description)
  
   var buttonDesRev = DesRev();  
-  var tabDiv = tabContent(product.reviews,product.shortDescription,product.fullDescription);
+  var tabDiv = tabContent(product.reviews,product.short_description,product.full_description);
   var form1 = form();
   // var cat = categories();
- 
-  
-
-
  divR2.append(img)
  divR2.append(detailData);
  divR2.append(buttonDesRev)
@@ -48,14 +37,11 @@ function getProduct(product){
  
  divR1.append(divC1)
 //  divR1.append(cat);
-
  console.log(divR1);
  divCon2.append(divR1)
  divCon1.append(divCon2)
- 
+ return divCon1;
 
- 
-  return divCon1;
 }
 
 
@@ -65,8 +51,6 @@ function detailProductImg(url){
  var div = document.createElement('div');
  var a = document.createElement('a');
  var img = document.createElement('img');
- 
-
  
  div.className = "border rounded";
  a.setAttribute("href","javascript.void(0);");
@@ -80,8 +64,6 @@ function detailProductImg(url){
  
 
 }
-
-
 
 
 function detailProductData(name,categoryId,price,shortDescription,fullDescription){
@@ -349,45 +331,4 @@ div10.append(star);
  return form;
 }
 
-// function categories(){
-//  var div = document.createElement('div');
-//  div.className = "col-lg-4 col-xl-3"
-//  var div1 = document.createElement('div');
-//  div1.className = "row g-4 fruite"
-//  var feature = document.getElementById('featured');
-
-//  var div2 = document.createElement('div');
-//  div2.className = "col-lg-12"
-//  var div3 = document.createElement('div');
-//  div3.className = 'input-group w-100 mx-auto d-flex mb-4'
-
-
-//  var input = document.createElement('input');
-//  input.className = "form-control p-3";
-//  input.setAttribute('placeholder','keywords');
-//  input.setAttribute('aria-descrbedby','search-icon-1');
-//  var span = document.createElement('span');
-//  span.id ='search-icon-1';
-//  var i =document.createElement('i');
-//  i.className = 'fa fa-search';
- 
-
-
-//  var div4 = document.createElement('div');
-//  div4.className = 'mb-4';
-//  var h4 = document.createElement('h4');
-//   h4.innerText = 'Categories';
-//   var ul = document.createElement('ul');
-//    ul.id='shop-categories';
-//  div4.append(h4,ul);
-//  span.append(i);
-//  div3.append(input,span);
-//  div2.append(div3);
-//  div2.append(div4);
-//  div1.append(div2);
-//  div1.append(feature);
- 
-//  div.append(div1);
-//  return div;
-// }
 

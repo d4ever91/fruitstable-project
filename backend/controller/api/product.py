@@ -1,5 +1,5 @@
 from helper import getMessage,sendResponse,handle_bad_request
-from services.query import getAllQueryWithCondition
+from services.query import getAllQueryWithCondition,getOneQuery
 
 def getProductsByCategory(category_id,cursor):
     try:
@@ -9,6 +9,15 @@ def getProductsByCategory(category_id,cursor):
         return sendResponse("",data)
     except Exception as e:
         print(e)
+        return handle_bad_request(e)
+
+def getProductsBySlug(cursor,slug):
+    try:
+        data=getOneQuery(cursor,'SELECT p.name,p.link, p.thumbnail_image ,p.full_image,  p.short_description,p.price,p.qty, c.name as category_name  from products p LEFT JOIN categories c ON  p.category_id = c.id WHERE  p.link =? AND p.is_active =? AND c.is_active =?',(slug,True,True))
+        columns = [column[0] for column in cursor.description]
+        data = dict(zip(columns, data))
+        return sendResponse("",data)
+    except Exception as e:
         return handle_bad_request(e)
     
 
